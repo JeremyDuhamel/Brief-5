@@ -1,21 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { createNativeStackNavigator} from '@react-navigation/native-stack';
+import { TransitionPresets } from '@react-navigation/stack';
+import 'expo-dev-client'
+import AlertIntro from './Components/AlertIntro';
+import AlertWhen from './Components/AlertWhen';
+import AlertWho from './Components/AlertWho';
+import AlertWhere from './Components/AlertWhere';
 
-export default function App() {
+
+const Stack = createNativeStackNavigator();
+  
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer theme={DarkTheme}>
+      <Stack.Navigator
+        screenOptions={({navigation}) => ({
+          headerStyle: {
+            backgroundColor: '#000'
+          },
+          headerTintColor: '#FFF',
+          headerTitleStyle: {
+            fontWeight: 'normal',
+            color: '#000'
+          },
+          ...TransitionPresets.ModalTransition
+        })}
+      >
+        <Stack.Screen name="SIMPLON.CITY" component={AlertIntro}/>
+        <Stack.Screen name="AlertWhen" component={AlertWhen}/>
+        <Stack.Screen name="AlertWhere" component={AlertWhere}/>
+        <Stack.Screen name="AlertWho" component={AlertWho}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
+
+export default App;
