@@ -2,17 +2,17 @@ import * as React from 'react'
 import Title from './Title';
 import { useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { MapView, UrlTile } from 'react-native-maps';
 
-
-function AlertWhere({ navigation }) {
+function AlertWhere({ route, navigation }) {
+  const { alertType, alertDesc, alertDate } = route.params
   return(
     <View>
       <Title/>
       <TouchableOpacity 
-          style={styles.button}
-          onPress={() => navigation.navigate('AlertWho')}>
-          
-          <Text style={styles.buttonText}>Suivant</Text>
+        style={styles.button}
+        onPress={() => navigation.navigate('AlertPhoto', { alertType, alertDesc, alertDate })}>
+        <Text style={styles.buttonText}>Suivant</Text>
       </TouchableOpacity>
     </View>
   )

@@ -6,12 +6,10 @@ import Title from './Title';
 import { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
-function AlertWhen({ navigation }) {
-  const [date, setDate] = useState(new Date())
-  const [time, setTime] = useState(new Date())
-  const [modalDateVisible, setModalDateVisible] = useState(false);
-  const [modalTimeVisible, setModalTimeVisible] = useState(false);
-  const dateString = date.toString
+function AlertWhen({ route, navigation }) {
+  const { alertType, alertDesc } = route.params
+  const [alertDate, setAlertDate] = useState(new Date())
+
   return (
     <View>
       <Title/>
@@ -21,53 +19,14 @@ function AlertWhen({ navigation }) {
       
       <View>
         <Text style={styles.formTitle}>ENTREZ LA DATE</Text>
-        <TouchableOpacity 
-        style={styles.picker}
-        onPress={() => setModalDateVisible(true)}>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.centeredView}>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={modalDateVisible}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <DatePicker style={styles.dateTimePicker} date={date} mode="date" onDateChange={setDate} androidVariant="nativeAndroid"/>
-              <TouchableOpacity onPress={() => setModalDateVisible(false)}><Text style={{textAlign: 'center', color: '#000'}}>OK</Text></TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
-      </View>
-
-
-      <View>
-        <Text style={styles.formTitle}>ENTREZ L'HEURE</Text>
-        <TouchableOpacity 
-        style={styles.picker}
-        onPress={() => setModalTimeVisible(true)}>
-          <Text style={styles.formText}>Toucher pour choisir l'heure</Text>
-        </TouchableOpacity>
-      </View>
-      
-      <View style={styles.centeredView}>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={modalTimeVisible}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <DatePicker style={styles.dateTimePicker} date={time} mode="time" onDateChange={setTime} androidVariant="nativeAndroid"/>
-              <TouchableOpacity onPress={() => setModalTimeVisible(false)}><Text style={{textAlign: 'center', color: '#000'}}>OK</Text></TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
+        <View style={styles.modalView}>
+          <DatePicker style={styles.dateTimePicker} date={alertDate} mode="datetime" onDateChange={setAlertDate} androidVariant="nativeAndroid"/>
+        </View>
       </View>
 
       <TouchableOpacity 
         style={styles.button}
-        onPress={() => navigation.navigate('AlertWhere')}>
+        onPress={() => navigation.navigate('AlertWhere', { alertType, alertDesc, alertDate })}>
         
         <Text style={styles.buttonText}>Suivant</Text>
       </TouchableOpacity>
@@ -127,7 +86,8 @@ const styles = StyleSheet.create({
     fontSize: 32
   },
   modalView: {
-    marginHorizontal: 60,
+    marginHorizontal: 22,
+    marginBottom: 30,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 5,

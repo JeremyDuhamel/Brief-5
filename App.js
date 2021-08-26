@@ -7,7 +7,8 @@ import AlertIntro from './Components/AlertIntro';
 import AlertWhen from './Components/AlertWhen';
 import AlertWho from './Components/AlertWho';
 import AlertWhere from './Components/AlertWhere';
-
+import AlertPhoto from './Components/AlertPhoto';
+import AlertEnd from './Components/AlertEnd';
 
 const Stack = createNativeStackNavigator();
   
@@ -30,7 +31,9 @@ function App() {
         <Stack.Screen name="SIMPLON.CITY" component={AlertIntro}/>
         <Stack.Screen name="AlertWhen" component={AlertWhen}/>
         <Stack.Screen name="AlertWhere" component={AlertWhere}/>
+        <Stack.Screen name="AlertPhoto" component={AlertPhoto}/>
         <Stack.Screen name="AlertWho" component={AlertWho}/>
+        <Stack.Screen name="AlertEnd" component={AlertEnd}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

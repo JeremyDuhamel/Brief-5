@@ -3,7 +3,8 @@ import { Text, TextInput, View, TouchableOpacity, StyleSheet, ScrollView } from 
 import Title from './Title';
 import { useState } from 'react';
 
-function AlertWho({ navigation }) {
+function AlertWho({ route, navigation }) {
+  const { alertType, alertDesc, alertDate } = route.params
   const [name, setName] = useState();
   const [firstName, setFirstName] = useState();
   const [adressStreet, setAdressStreet] = useState();
@@ -66,6 +67,7 @@ function AlertWho({ navigation }) {
           onChangeText={setAdressNumber}
           value={adressNumber}
           placeholder="Adresse - N°"
+          keyboardType= 'numeric'
         />
         </View>
       </View>
@@ -79,6 +81,7 @@ function AlertWho({ navigation }) {
           value={adressPostal}
           placeholder="Adresse - Code Postal"
           autoCompleteType='postal-code'
+          keyboardType= 'numeric'
         />
         </View>
       </View>
@@ -104,6 +107,7 @@ function AlertWho({ navigation }) {
           value={tel}
           placeholder="Tél"
           autoCompleteType='tel'
+          keyboardType= 'phone-pad'
         />
         </View>
       </View>
@@ -123,7 +127,7 @@ function AlertWho({ navigation }) {
 
       <TouchableOpacity 
         style={styles.button}
-        onPress={() => navigation.navigate('AlertWhen')}>
+        onPress={() => navigation.navigate('AlertEnd' , { alertType, alertDesc, alertDate, name, firstName, adressStreet, adressNumber, adressPostal, adressTown, tel, email })}>
         
         <Text style={styles.buttonText}>Suivant</Text>
       </TouchableOpacity>

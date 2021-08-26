@@ -1,67 +1,111 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Camera } from 'expo-camera';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import Title from './Title';
 
-function AlertPhoto({ navigation }) {
-  const [hasPermission, setHasPermission] = useState(null);
-  const [type, setType] = useState(Camera.Constants.Type.back);
+function AlertPhoto({ route, navigation }) {
+  const { alertType, alertDesc, alertDate } = route.params
+  let openImagePickerAsync = async () => {
+    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-  useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
-  }, []);
+    if (permissionResult.granted === false) {
+      alert("La permission d'accéder à la galerie est requise !");
+      return;
+    }
 
-  if (hasPermission === null) {
-    return <View />;
+    let pickerResult = await ImagePicker.launchImageLibraryAsync();
+    console.log(pickerResult);
   }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
+  
   return (
-    <View style={styles.container}>
-      <Camera style={styles.camera} type={type}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}>
-            <Text style={styles.text}> Flip </Text>
-          </TouchableOpacity>
-        </View>
-      </Camera>
+    <View>
+      <Title/>
+      <View style={styles.subTitle}>
+        <Text style={styles.subTitleText}>VOULEZ-VOUS AJOUTER UNE PHOTO ?</Text>
+      </View>
+      <View style={styles.buttonPhoto}>
+        <TouchableOpacity onPress={openImagePickerAsync}>
+          <Text style={styles.buttonPhotoText}>DEPUIS LA GALERIE</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.buttonPhoto}>
+        <TouchableOpacity>
+          <Text style={styles.buttonPhotoText}>DEPUIS LA CAMÉRA</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.container}>
+        <Image source={{ uri: 'https://i.imgur.com/TkIrScD.png' }} style={styles.logo} />
+      </View>
+      <Text style={styles.instructions}>
+        To share a photo from your phone with a friend, just press the button below!
+      </Text>
+      <TouchableOpacity 
+        style={styles.button}
+        onPress={() => navigation.navigate('AlertWho', { alertType, alertDesc, alertDate })}>
+        
+        <Text style={styles.buttonText}>Suivant</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   camera: {
     flex: 1,
   },
-  buttonContainer: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    margin: 20,
+  subTitle:{
+    padding: 18,
+    marginHorizontal: 50,
+    marginBottom: 20
   },
-  button: {
-    flex: 0.1,
-    alignSelf: 'flex-end',
+  subTitleText:{
+    textAlign: 'center',
+    fontSize: 25,
+    color: '#FFFFFF'
+  },
+  button:{
+    backgroundColor: '#e22a2a',
+    borderRadius: 8,
+    marginVertical: 40,
+    marginHorizontal: 50,
+    padding: 5
+  },
+  buttonText:{
+    textAlign: 'center',
+    color: '#FFFFFF',
+    fontSize: 32
+  },
+  buttonPhoto:{
+    marginHorizontal: 22,
+    marginVertical: 10,
     alignItems: 'center',
+    padding: 8,
+    borderRadius: 8,
+    backgroundColor: '#2a95e2'
+  },
+  buttonPhotoText:{
+    fontSize: 20,
+    color: 'white'
   },
   text: {
     fontSize: 18,
     color: 'white',
   },
+  container: {
+    alignItems: 'center',
+  },
+  logo: {
+    alignItems: 'center',
+    width: 305,
+    height: 159,
+    marginBottom: 20,
+  },
+  instructions: {
+    color: '#888',
+    fontSize: 18,
+    marginHorizontal: 15,
+    marginBottom: 10,
+  }
 });
 
 export default AlertPhoto

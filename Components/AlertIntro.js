@@ -32,7 +32,7 @@ function AlertIntro({ navigation }) {
           </Picker>
         </TouchableOpacity>
       </View>
-
+      
       <View style={{marginVertical: 30}}>
         <Text style={styles.formTitle}>DÉCRIVEZ L'ALERTE</Text>
         <View style={styles.picker}>
@@ -47,7 +47,7 @@ function AlertIntro({ navigation }) {
       </View>
       <TouchableOpacity 
         style={styles.button}
-        onPress={() => navigation.navigate('AlertWhen')}>
+        onPress={() => navigation.navigate('AlertWhen', { alertType, alertDesc })}>
         
         <Text style={styles.buttonText}>Suivant</Text>
       </TouchableOpacity>
