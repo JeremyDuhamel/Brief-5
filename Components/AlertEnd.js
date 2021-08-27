@@ -22,7 +22,6 @@ function AlertEnd({route, navigation}) {
       email
     };
     emailjs.send('service_w9510md', 'template_u41fy3p', templateParams, 'user_3xHmAk6H4N8alXap3fPAj')
-      console.log(JSON.stringify(templateParams));
       Alert.alert(
         "Confirmation",
         "Alerte Envoyée. Merci de votre collaboration citoyen·ne !",

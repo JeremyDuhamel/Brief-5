@@ -23,7 +23,7 @@ function AlertWhen({ route, navigation }) {
           <DatePicker style={styles.dateTimePicker} date={alertDate} mode="datetime" onDateChange={setAlertDate} androidVariant="nativeAndroid"/>
         </View>
       </View>
-
+      
       <TouchableOpacity 
         style={styles.button}
         onPress={() => navigation.navigate('AlertWhere', { alertType, alertDesc, alertDate })}>

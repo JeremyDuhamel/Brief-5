@@ -5,6 +5,8 @@ import Title from './Title';
 
 function AlertPhoto({ route, navigation }) {
   const { alertType, alertDesc, alertDate } = route.params
+  const [selectedImage, setSelectedImage] = useState(null)
+
   let openImagePickerAsync = async () => {
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -15,6 +17,23 @@ function AlertPhoto({ route, navigation }) {
 
     let pickerResult = await ImagePicker.launchImageLibraryAsync();
     console.log(pickerResult);
+
+    if (pickerResult.cancelled === true) {
+      return;
+    }
+
+    setSelectedImage({ localUri: pickerResult.uri });
+  }
+
+  if (selectedImage !== null) {
+    return (
+      <View style={styles.container}>
+        <Image
+          source={{ uri: selectedImage.localUri }}
+          style={styles.thumbnail}
+        />
+      </View>
+    );
   }
   
   return (
@@ -34,11 +53,8 @@ function AlertPhoto({ route, navigation }) {
         </TouchableOpacity>
       </View>
       <View style={styles.container}>
-        <Image source={{ uri: 'https://i.imgur.com/TkIrScD.png' }} style={styles.logo} />
+        <Image source={{uri: 'https://i.imgur.com/TkIrScD.png'}} style={styles.logo} />
       </View>
-      <Text style={styles.instructions}>
-        To share a photo from your phone with a friend, just press the button below!
-      </Text>
       <TouchableOpacity 
         style={styles.button}
         onPress={() => navigation.navigate('AlertWho', { alertType, alertDesc, alertDate })}>
@@ -57,6 +73,11 @@ const styles = StyleSheet.create({
     padding: 18,
     marginHorizontal: 50,
     marginBottom: 20
+  },
+  thumbnail: {
+    width: 300,
+    height: 300,
+    resizeMode: "contain"
   },
   subTitleText:{
     textAlign: 'center',
@@ -92,7 +113,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   container: {
-    alignItems: 'center',
+    alignItems: 'center'
   },
   logo: {
     alignItems: 'center',
@@ -100,12 +121,6 @@ const styles = StyleSheet.create({
     height: 159,
     marginBottom: 20,
   },
-  instructions: {
-    color: '#888',
-    fontSize: 18,
-    marginHorizontal: 15,
-    marginBottom: 10,
-  }
 });
 
 export default AlertPhoto
