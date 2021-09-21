@@ -11,8 +11,7 @@ function AlertIntro({ navigation }) {
 
   return (
     <View>
-      <StatusBar
-      color='#FFF'></StatusBar>
+      <StatusBar backgroundColor="#000"></StatusBar>
       <Title/>
       <View style={styles.subTitle}>
         <Text style={styles.subTitleText}>VOUS AVEZ QUELQUES CHOSE À NOUS SIGNALER ? DITES NOUS EN PLUS !</Text>

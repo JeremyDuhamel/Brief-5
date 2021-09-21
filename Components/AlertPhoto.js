@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Title from './Title';
+import { StatusBar } from 'expo-status-bar';
 
 function AlertPhoto({ route, navigation }) {
-  const { alertType, alertDesc, alertDate } = route.params
+  const { alertType, alertDesc, stringifiedAlertDate, capturedImage } = route.params
   const [selectedImage, setSelectedImage] = useState(null)
-
+  
+  /** Galerie */
   let openImagePickerAsync = async () => {
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -22,20 +24,16 @@ function AlertPhoto({ route, navigation }) {
       return;
     }
 
-    setSelectedImage({ localUri: pickerResult.uri });
+    setSelectedImage({ uri: pickerResult.uri });
   }
 
+  let imageToSend = 'https://i.imgur.com/TkIrScD.png';
   if (selectedImage !== null) {
-    return (
-      <View style={styles.container}>
-        <Image
-          source={{ uri: selectedImage.localUri }}
-          style={styles.thumbnail}
-        />
-      </View>
-    );
+    imageToSend = selectedImage.uri;
   }
-  
+  if (capturedImage !== undefined){
+    imageToSend = capturedImage.uri;
+  } 
   return (
     <View>
       <Title/>
@@ -48,16 +46,17 @@ function AlertPhoto({ route, navigation }) {
         </TouchableOpacity>
       </View>
       <View style={styles.buttonPhoto}>
-        <TouchableOpacity>
+        <TouchableOpacity
+        onPress={() => navigation.navigate('OpenCamera', { alertType, alertDesc, stringifiedAlertDate, imageToSend })}>
           <Text style={styles.buttonPhotoText}>DEPUIS LA CAMÉRA</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.container}>
-        <Image source={{uri: 'https://i.imgur.com/TkIrScD.png'}} style={styles.logo} />
+        <Image source={{uri: imageToSend}} style={styles.logo} />
       </View>
       <TouchableOpacity 
         style={styles.button}
-        onPress={() => navigation.navigate('AlertWho', { alertType, alertDesc, alertDate })}>
+        onPress={() => navigation.navigate('AlertWho', { alertType, alertDesc, stringifiedAlertDate, imageToSend })}>
         
         <Text style={styles.buttonText}>Suivant</Text>
       </TouchableOpacity>
@@ -113,7 +112,8 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   container: {
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 40,
   },
   logo: {
     alignItems: 'center',

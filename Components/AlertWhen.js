@@ -5,13 +5,15 @@ import DatePicker from 'react-native-date-picker'
 import Title from './Title';
 import { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
 
 function AlertWhen({ route, navigation }) {
   const { alertType, alertDesc } = route.params
   const [alertDate, setAlertDate] = useState(new Date())
-
+  let stringifiedAlertDate = JSON.stringify(alertDate)
   return (
     <View>
+      <StatusBar backgroundColor="#000"></StatusBar>
       <Title/>
       <View style={styles.subTitle}>
         <Text style={styles.subTitleText}>QUAND CELA S’EST-IL DÉROULÉ ?</Text>
@@ -26,7 +28,7 @@ function AlertWhen({ route, navigation }) {
       
       <TouchableOpacity 
         style={styles.button}
-        onPress={() => navigation.navigate('AlertWhere', { alertType, alertDesc, alertDate })}>
+        onPress={() => navigation.navigate('AlertPhoto', { alertType, alertDesc, stringifiedAlertDate })}>
         
         <Text style={styles.buttonText}>Suivant</Text>
       </TouchableOpacity>

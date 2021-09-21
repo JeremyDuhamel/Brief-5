@@ -2,9 +2,10 @@ import * as React from 'react'
 import { Text, TextInput, View, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import Title from './Title';
 import { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
 
 function AlertWho({ route, navigation }) {
-  const { alertType, alertDesc, alertDate } = route.params
+  const { alertType, alertDesc, stringifiedAlertDate, imageToSend } = route.params
   const [name, setName] = useState();
   const [firstName, setFirstName] = useState();
   const [adressStreet, setAdressStreet] = useState();
@@ -16,6 +17,7 @@ function AlertWho({ route, navigation }) {
   
   return(
     <ScrollView>
+      <StatusBar backgroundColor="#000"></StatusBar>
       <Title/>
       <View style={styles.subTitle}>
         <Text style={styles.subTitleText}>POURRIEZ VOUS NOUS EN DIRE PLUS SUR VOUS ?</Text>
@@ -127,7 +129,7 @@ function AlertWho({ route, navigation }) {
 
       <TouchableOpacity 
         style={styles.button}
-        onPress={() => navigation.navigate('AlertEnd' , { alertType, alertDesc, alertDate, name, firstName, adressStreet, adressNumber, adressPostal, adressTown, tel, email })}>
+        onPress={() => navigation.navigate('AlertEnd' , { alertType, alertDesc, stringifiedAlertDate, name, firstName, adressStreet, adressNumber, adressPostal, adressTown, tel, email, imageToSend })}>
         
         <Text style={styles.buttonText}>Suivant</Text>
       </TouchableOpacity>
