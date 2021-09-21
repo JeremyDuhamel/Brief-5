@@ -85,7 +85,11 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   button: {
-    flex: 0.1,
+    backgroundColor: '#e22a2a',
+    borderRadius: 8,
+    flex: 1,
+    padding : 5,
+    marginHorizontal: 7,
     alignSelf: 'flex-end',
     alignItems: 'center',
   },
